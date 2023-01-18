@@ -1,0 +1,20 @@
+.options{
+    display: flex;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    margin-top: 70px;
+
+}
+
+img{
+    width: 200px;
+    height: 200px;
+
+}
+
+.start{
+    align-items: center;
+}
+
+
+
