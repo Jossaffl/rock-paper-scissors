@@ -1,82 +1,75 @@
-let options = ["rock","paper","scissors"];
+let options = ["rock","paper","scissors"];  //game
+player_score = document.getElementById("wins")
+computer_score = document.getElementById("defeats")
+game_options = document.getElementsByClassName("buttons");
+game_notifier = document.getElementById("notifier");
+start_game = document.getElementById("game-start")
+
 
 function getComputerChoice(){
     return options[Math.floor(Math.random() * options.length)]
 };
 
-let game_choices = document.getElementsByClassName("buttons");
-let rock_choice = document.getElementById("rock");
-let paper_choice = document.getElementById("paper");
-let scissors_choice = document.getElementById("scissors");
-
-
-function GameOn(){   
-    let computer_choices = getComputerChoice();               //function takes care of handling input and compare it to determine winner//
+function GameOn(player_choice){
     
-    if (rock_choice){
-        if (computer_choices === "scissors") {AddVictories(); notifiying_w()}
-        else if (computer_choices === "paper") {AddDefeats(); notifying_l()}
-        else {notifying_d()}
+    if (player_choice == "rock" && getComputerChoice() == "scissors" || player_choice == "paper" && getComputerChoice() == "rock" 
+    || player_choice == "scissors" && getComputerChoice() == "paper") { 
+        Game_counter("win")
 
-    } else if (paper_choice){
-        if (computer_choices === "rock") {AddVictories(); notifiying_w()}
-        else if (computer_choices === "scissors") {AddDefeats(); notifying_l()}
-        else {notifying_d()}
+    }else if (player_choice == "rock" && getComputerChoice() == "paper" || player_choice == "paper" && getComputerChoice() == "scissors" 
+    || player_choice == "scissors" && getComputerChoice() == "rock") {
+        Game_counter("defeat")
+    }
+     else if(player_choice == "rock" && getComputerChoice() == "rock" || player_choice == "paper" && getComputerChoice() == "paper" 
+    || player_choice == "scissors" && getComputerChoice() == "scissors") {
+        Game_counter("draw")
+    }}   
 
-    } else if (scissors_choice){
-        if (computer_choices === "paper") {AddVictories(); notifiying_w()}
-        else if (computer_choices === "rock") {AddDefeats(); notifying_l()}
-        else {notifying_d()}
+    
 
-    } else {
-        
-        console.log("Something went wrong")
+    
+function Game_counter(result){
+    let w = Number(player_score.textContent);
+    let l = Number (computer_score.textContent);
+    
+    if (result == "win"){
+        player_score.textContent = w + 1,
+        game_notifier.textContent = "You win!"
+        if (player_score.textContent == 5){
+            game_notifier.textContent = "You won the game, congrats!"   
+            setTimeout(ResetGame, 3000);}
+
+    }
+    else if(result == "defeat"){
+        computer_score.textContent = l + 1,
+        game_notifier.textContent = "Defeat! Try again!!"
+        if (computer_score.textContent == 5){
+            game_notifier.textContent = "You lost the game, You can always try again in...."   
+            setTimeout(ResetGame, 3000);
+        }
+
+    }
+    else if (result == "draw"){
+        game_notifier.textContent = "It's a draw..."
+    }
+    else {
+        console.log("something went wrong")
     }
 }
 
 
-
-
-let victories = document.getElementById("wins");
-
-function AddVictories(){                                     //functions take care of counting wins and defeats//
-  let vic = Number(victories.innerText);
-  victories.innerText = vic +1;
-}
-
-let defeats = document.getElementById("defeats");
-
-function AddDefeats(){                                      
-   let def = Number(defeats.innerText);
-   defeats.innerText = def + 1;
+function ResetGame(){
+    game_notifier.textContent =  "Let's start the match!"
+    player_score.textContent = 0
+    computer_score.textContent = 0
 }
 
 
-
-let notifier = document.getElementById("notifier");                      
-
-function notifiying_w(){                            //functions take care of notices//
-    notifier.textContent =  "You win!";
-
-}
-function notifying_l(){
-    notifier.textContent  = "Awww, you lost";
-}
-function notifying_d(){
-    notifier.textContent  = "Draw!, let's go again";
-}
-
-
-
-
-rock_choice.addEventListener("click",GameOn);
-paper_choice.addEventListener("click",GameOn);
-scissors_choice.addEventListener("click",GameOn);
-
-
-
-
-
+Array.from(game_options).forEach((element) => { 
+    element.addEventListener("click", (e) => {
+    const player_choice = element.id;
+    GameOn(player_choice)})
+})
 
 
 
